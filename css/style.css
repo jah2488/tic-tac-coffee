@@ -165,17 +165,14 @@ input[type="submit"] {
   margin-top:8px;
 }
 section {
-<<<<<<< HEAD
-  width:175px;
+  width:230px;
   text-align:center;
 }
 .center{
-  width:175px;
+  width:230px;
   margin:0 auto;
 }
 #statusBar {
-  width:175px;
-=======
   width:230px;
   text-align:center;
   margin: 0 auto;
@@ -186,7 +183,6 @@ section {
 }
 #statusBar {
   width:210px;
->>>>>>> gh-pages
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -206,11 +202,7 @@ section {
   padding-bottom: 14px;
   color:#C09853;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-<<<<<<< HEAD
-  margin-top:10px;
-=======
   margin: 10px auto;
->>>>>>> gh-pages
 }
 #statusBar h1 {
   color:#C09853;
@@ -218,11 +210,7 @@ section {
 }
 #statusBar p {
   margin: 0 0 9px;
-<<<<<<< HEAD
-  font-size: 13px;
-=======
   font-size: 20px;
->>>>>>> gh-pages
   line-height: 18px;
 }
 .cell {
@@ -235,20 +223,12 @@ section {
   user-select: none;
   vertical-align:middle;
   float:left;
-<<<<<<< HEAD
-  width:50px;
-  height:35px;
-  padding:2px;
-  padding-top:15px;
-  margin:0px;
-=======
   width:70px;
-  height:48px;
+  height:44px;
   padding:2px;
-  padding-top:15px;
+  padding-top:20px;
   margin:0px;
   font-size:45px;
->>>>>>> gh-pages
 }
 .cell:hover {
   background-color:#FBEED5;
@@ -280,13 +260,9 @@ section {
 .row3 {
   border-top:3px solid black;
 }
-<<<<<<< HEAD
-
-=======
 section#board {
   margin: 10px auto;
 }
->>>>>>> gh-pages
 .invalid {}
 .valid   {}
 
@@ -306,13 +282,6 @@ section#board {
 /* ====================
     INTERMEDIATE: Menu
    ==================== */
-<<<<<<< HEAD
-	
-=======
-
-
-
->>>>>>> gh-pages
 	nav a{
 		float:left;
 		width:27%;
