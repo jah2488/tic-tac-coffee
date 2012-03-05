@@ -15,7 +15,6 @@
         this.makeMove = __bind(this.makeMove, this);
         var p1, p2, players, _ref, _ref2, _ref3;
         players = (_ref = options[0]) != null ? _ref : '1';
-        console.log(players);
         switch (players) {
           case 0:
           case "0":
@@ -31,7 +30,6 @@
         }
         this.player1 = new Player((_ref2 = options[1]) != null ? _ref2 : 'X', p1);
         this.player2 = new Player((_ref3 = options[2]) != null ? _ref3 : 'O', p2);
-        console.log("" + p1 + " - " + p2 + " | " + this.player1.human + " / " + this.player2.human);
         this.cells = $("section#board .cell");
         this.cells.each(function() {
           $(this).text(" ");
@@ -95,7 +93,8 @@
         if (gameOver === true) {
           score = ($("." + winner + "-wins")).text();
           ($("." + winner + "-wins")).text(parseInt(score) + 1);
-          this.gameOver("" + type + " Has Won!");
+          this.gameOver("GAMEOVER!");
+          return;
         } else {
           moves = 9;
           this.cells.each(function() {
@@ -113,11 +112,6 @@
       Game.prototype.gameOver = function(message) {
         notice(message);
         return ($('section#setup')).slideToggle();
-      };
-
-      Game.prototype.isStalemate = function() {
-        this.availableMoves -= 1;
-        if (this.availableMoves <= 0) return stalemate === true;
       };
 
       Game.prototype.computerMove = function(player) {
@@ -288,7 +282,7 @@
       Game.prototype.switchPlayer = function() {
         this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
         if (this.currentPlayer.human !== true) {
-          this.computerMove(this.currentPlayer);
+          setTimeout(this.computerMove(this.currentPlayer), 800);
         }
         return notice("" + this.currentPlayer.type + ": It's your turn");
       };
@@ -310,6 +304,7 @@
       var game;
       event.target.checkValidity();
       event.preventDefault();
+      if (game !== void 0) delete game;
       game = new Game([($('#player-count')).val(), ($('#player-1-type')).val(), ($('#player-2-type')).val()]);
       ($('section#setup')).slideToggle();
       return ($('section#board')).show();

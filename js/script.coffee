@@ -11,7 +11,6 @@ jQuery ->
 
     constructor: (options) ->
       players = options[0] ? '1'
-      console.log(players)
       switch players
         when 0, "0" then p1 = p2 = false
         when 2, "2" then p1 = p2 = true
@@ -20,7 +19,6 @@ jQuery ->
           p2 = false
       @player1 = new Player(options[1] ? 'X', p1 )
       @player2 = new Player(options[2] ? 'O', p2 )
-      console.log("#{p1} - #{p2} | #{@player1.human} / #{@player2.human}")
       @cells   = ($ "section#board .cell")
       @cells.each ->
         $(@).text(" ")
@@ -35,7 +33,6 @@ jQuery ->
         mouseleave: @.resetCell
 
       setTimeout(@.computerMove(@currentPlayer), 1000) if parseInt(players) is 0
-   
     makeMove:(e) =>
       if ($ e.target).text() isnt " "
         ($ e.target).addClass('invalid')
@@ -70,7 +67,8 @@ jQuery ->
       if gameOver is true
           score = ($ ".#{winner}-wins").text()    
           ($ ".#{winner}-wins").text( parseInt(score) + 1)    
-          @.gameOver("#{type} Has Won!")
+          @.gameOver("GAMEOVER!")
+          return undefined
       else
         moves = 9
         @cells.each ->
@@ -87,14 +85,6 @@ jQuery ->
     gameOver: (message) ->
       notice(message)
       ($ 'section#setup').slideToggle()
-      # ($ 'section#board').hide()  
-
-    isStalemate: ->
-
-
-
-      @availableMoves -= 1
-      stalemate is true if @availableMoves <= 0
 
 
     computerMove: (player) ->
@@ -196,7 +186,8 @@ jQuery ->
             for n in [0..2]
               rank[2-n][n] = amount if rank[2-n][n] isnt 0
       return rank
-    
+
+
     resetCell:(e)=> 
       ($ e.target).removeClass('invalid')
       ($ e.target).removeClass('valid') 
@@ -204,7 +195,7 @@ jQuery ->
     switchPlayer: ->
       @currentPlayer = if @currentPlayer is @player1 then @player2 else @player1
       if @currentPlayer.human isnt true
-        @.computerMove(@currentPlayer)
+        setTimeout(@.computerMove(@currentPlayer), 800)
       notice("#{@currentPlayer.type}: It's your turn")
 
 
@@ -213,15 +204,11 @@ jQuery ->
       @type  = type
       @human = human ? true
 
-        
   ($ '#gameOptions').submit (event) ->
     event.target.checkValidity()
     event.preventDefault()
-    
+    delete game if game isnt undefined
     game = new Game [($ '#player-count').val(), ($ '#player-1-type').val(), ($ '#player-2-type').val()]
 
     ($ 'section#setup').slideToggle()
     ($ 'section#board').show()
- 
-
-
