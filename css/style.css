@@ -165,15 +165,16 @@ input[type="submit"] {
   margin-top:8px;
 }
 section {
-  width:175px;
+  width:230px;
   text-align:center;
+  margin: 0 auto;
 }
 .center{
-  width:175px;
+  width: 98%;
   margin:0 auto;
 }
 #statusBar {
-  width:175px;
+  width:210px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -193,7 +194,7 @@ section {
   padding-bottom: 14px;
   color:#C09853;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top:10px;
+  margin: 10px auto;
 }
 #statusBar h1 {
   color:#C09853;
@@ -201,7 +202,7 @@ section {
 }
 #statusBar p {
   margin: 0 0 9px;
-  font-size: 13px;
+  font-size: 20px;
   line-height: 18px;
 }
 .cell {
@@ -214,11 +215,12 @@ section {
   user-select: none;
   vertical-align:middle;
   float:left;
-  width:50px;
-  height:35px;
+  width:70px;
+  height:48px;
   padding:2px;
   padding-top:15px;
   margin:0px;
+  font-size:45px;
 }
 .cell:hover {
   background-color:#FBEED5;
@@ -250,7 +252,9 @@ section {
 .row3 {
   border-top:3px solid black;
 }
-
+section#board {
+  margin: 10px auto;
+}
 .invalid {}
 .valid   {}
 
@@ -270,7 +274,9 @@ section {
 /* ====================
     INTERMEDIATE: Menu
    ==================== */
-	
+
+
+
 	nav a{
 		float:left;
 		width:27%;
