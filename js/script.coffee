@@ -205,7 +205,7 @@ jQuery ->
       @human = human ? true
 
   ($ '#gameOptions').submit (event) ->
-    ($ 'section#board div.cells').off()
+    ($ 'section#board div.cell').off()
     delete game if game isnt null
     event.target.checkValidity()
     event.preventDefault()

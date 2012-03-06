@@ -302,7 +302,7 @@
     })();
     return ($('#gameOptions')).submit(function(event) {
       var game;
-      ($('section#board div.cells')).off();
+      ($('section#board div.cell')).off();
       if (game !== null) delete game;
       event.target.checkValidity();
       event.preventDefault();
