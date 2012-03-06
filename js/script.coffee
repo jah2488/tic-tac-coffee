@@ -7,7 +7,7 @@ jQuery ->
   notice = (message) ->
     ($ 'div#statusBar > p').html("<p>#{message}</p>")
 
-  window.Game   = class Game
+  class Game
 
     constructor: (options) ->
       players = options[0] ? '1'
@@ -28,7 +28,7 @@ jQuery ->
       ($ 'span.p1-title').text(" #{options[1]} Wins : ")
       ($ 'span.p2-title').text(" #{options[2]} Wins : ")
       notice("#{@currentPlayer.type}: It's your turn")
-      ($ 'section#board div.cell').bind
+      ($ 'section#board div.cell').on
         click: @.makeMove
         mouseleave: @.resetCell
 
@@ -199,15 +199,16 @@ jQuery ->
       notice("#{@currentPlayer.type}: It's your turn")
 
 
-  window.Player = class Player
+  class Player
     constructor: (type, human) ->
       @type  = type
       @human = human ? true
 
   ($ '#gameOptions').submit (event) ->
+    ($ 'section#board div.cells').off()
+    delete game if game isnt null
     event.target.checkValidity()
     event.preventDefault()
-    delete game if game isnt undefined
     game = new Game [($ '#player-count').val(), ($ '#player-1-type').val(), ($ '#player-2-type').val()]
 
     ($ 'section#setup').slideToggle()

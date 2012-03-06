@@ -8,7 +8,7 @@
     notice = function(message) {
       return ($('div#statusBar > p')).html("<p>" + message + "</p>");
     };
-    window.Game = Game = (function() {
+    Game = (function() {
 
       function Game(options) {
         this.resetCell = __bind(this.resetCell, this);
@@ -40,7 +40,7 @@
         ($('span.p1-title')).text(" " + options[1] + " Wins : ");
         ($('span.p2-title')).text(" " + options[2] + " Wins : ");
         notice("" + this.currentPlayer.type + ": It's your turn");
-        ($('section#board div.cell')).bind({
+        ($('section#board div.cell')).on({
           click: this.makeMove,
           mouseleave: this.resetCell
         });
@@ -290,7 +290,7 @@
       return Game;
 
     })();
-    window.Player = Player = (function() {
+    Player = (function() {
 
       function Player(type, human) {
         this.type = type;
@@ -302,9 +302,10 @@
     })();
     return ($('#gameOptions')).submit(function(event) {
       var game;
+      ($('section#board div.cells')).off();
+      if (game !== null) delete game;
       event.target.checkValidity();
       event.preventDefault();
-      if (game !== void 0) delete game;
       game = new Game([($('#player-count')).val(), ($('#player-1-type')).val(), ($('#player-2-type')).val()]);
       ($('section#setup')).slideToggle();
       return ($('section#board')).show();
