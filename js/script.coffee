@@ -1,7 +1,8 @@
 
 jQuery ->  
 
-  ($ '#start_button').focus()
+  ($ 'input#start_multiplaer').focus()
+  ($ 'section#setup').hide()
   ($ 'section#board').hide()
 
   notice = (message) ->
@@ -91,9 +92,9 @@ jQuery ->
       type     = player.type
       opponent = if @currentPlayer.type is @player1.type then @player2.type else @player1.type
       rows     = [($ 'div.row1'),($ 'div.row2'),($ 'div.row3')]
-      rank     = [[3,2,3],
-                 [2,5,2],
-                 [3,2,3]]
+      rank     = [[3,3,3],
+                 [3,5,3],
+                 [3,3,3]]
       # Reset rank for existing moves
       for row, index in rows
         row.each (col) ->
@@ -101,17 +102,18 @@ jQuery ->
             rank[index][col] = 0
 
       @.checkForWinAndBlock    type,  9, rank #win
-      @.checkForWinAndBlock opponent,  8, rank #block
-      @.checkCorners        opponent, rank
-      max = [].concat(rank...)
-      max = max.sort()
-      max = max[max.length - 1]
+      if @.getMax(rank) isnt 9
+        @.checkForWinAndBlock opponent,  8, rank #block
+      if @.getMax(rank) isnt 9
+        @.checkCorners        opponent, rank
+
+      max = @.getMax(rank)
       move = []
       for row, i in rank
         for cell, j in row
           if cell is max
             move = "#{i},#{j}"
-    
+
       switch move
         when "0,0" then move = 0
         when "0,1" then move = 1
@@ -123,23 +125,30 @@ jQuery ->
         when "2,1" then move = 7
         when "2,2" then move = 8
 
+      console.log(rank)
       cells = ($ 'section#board div.cell')
       $(cells[move]).text(type)
 
       @.checkForWinner()
 
+    getMax: (rank) ->
+      max = [].concat(rank...)
+      max = max.sort()
+      max = max[max.length - 1]
+      return max
+
     checkCorners: (opponent, rank) ->
       corners = [($ 'div.row1.col1'),($ 'div.row1.col3'),($ 'div.row3.col1'),($ 'div.row3.col3')]
-      if corners[0] is opponent and corners[3] is " "
+      if corners[0].text() is opponent and corners[3].text() is " "
          rank[2][2] += 1
-      if corners[3] is opponent and corners[0] is " "
+      if corners[3].text() is opponent and corners[0].text() is " "
          rank[0][0] += 1
-      if corners[1] is opponent and corners[2] is " "
+      if corners[1].text() is opponent and corners[2].text() is " "
          rank[2][0] += 1
-      if corners[2] is opponent and corners[1] is " "
+      if corners[2].text() is opponent and corners[1].text() is " "
          rank[0][2] += 1
       return rank
-          
+
     checkForWinAndBlock: (type, amount, rank) ->
       rank = rank
       rows  = [($ 'div.row1'),($ 'div.row2'),($ 'div.row3')]
@@ -203,6 +212,27 @@ jQuery ->
     constructor: (type, human) ->
       @type  = type
       @human = human ? true
+
+
+  ($ '#offOrOnline').submit (event) ->
+
+    ($ 'section#board div.cell').off()
+    event.target.checkValidity()
+    event.preventDefault()
+
+    if ($ 'select#onOrOff option:selected').val() is "offline"
+      ($ 'section#off-online').hide()
+      ($ 'section#setup').show()
+      ($ '#start_button').focus()
+
+    if ($ 'select#onOrOff option:selected').val() is "online"
+      socket = io.connect('http://localhost')
+      socket.on('move', (data) ->
+        console.log(data)
+        socket.emit('move', { my: 'data'})
+      )
+      ($ 'section#off-online').hide()
+      ($ 'section#board').show()
 
   ($ '#gameOptions').submit (event) ->
     ($ 'section#board div.cell').off()

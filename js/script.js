@@ -3,7 +3,8 @@
 
   jQuery(function() {
     var Game, Player, notice;
-    ($('#start_button')).focus();
+    ($('input#start_multiplaer')).focus();
+    ($('section#setup')).hide();
     ($('section#board')).hide();
     notice = function(message) {
       return ($('div#statusBar > p')).html("<p>" + message + "</p>");
@@ -115,11 +116,11 @@
       };
 
       Game.prototype.computerMove = function(player) {
-        var cell, cells, i, index, j, max, move, opponent, rank, row, rows, type, _len, _len2, _len3, _ref;
+        var cell, cells, i, index, j, max, move, opponent, rank, row, rows, type, _len, _len2, _len3;
         type = player.type;
         opponent = this.currentPlayer.type === this.player1.type ? this.player2.type : this.player1.type;
         rows = [$('div.row1'), $('div.row2'), $('div.row3')];
-        rank = [[3, 2, 3], [2, 5, 2], [3, 2, 3]];
+        rank = [[3, 3, 3], [3, 5, 3], [3, 3, 3]];
         for (index = 0, _len = rows.length; index < _len; index++) {
           row = rows[index];
           row.each(function(col) {
@@ -127,11 +128,9 @@
           });
         }
         this.checkForWinAndBlock(type, 9, rank);
-        this.checkForWinAndBlock(opponent, 8, rank);
-        this.checkCorners(opponent, rank);
-        max = (_ref = []).concat.apply(_ref, rank);
-        max = max.sort();
-        max = max[max.length - 1];
+        if (this.getMax(rank) !== 9) this.checkForWinAndBlock(opponent, 8, rank);
+        if (this.getMax(rank) !== 9) this.checkCorners(opponent, rank);
+        max = this.getMax(rank);
         move = [];
         for (i = 0, _len2 = rank.length; i < _len2; i++) {
           row = rank[i];
@@ -168,18 +167,35 @@
           case "2,2":
             move = 8;
         }
+        console.log(rank);
         cells = $('section#board div.cell');
         $(cells[move]).text(type);
         return this.checkForWinner();
       };
 
+      Game.prototype.getMax = function(rank) {
+        var max, _ref;
+        max = (_ref = []).concat.apply(_ref, rank);
+        max = max.sort();
+        max = max[max.length - 1];
+        return max;
+      };
+
       Game.prototype.checkCorners = function(opponent, rank) {
         var corners;
         corners = [$('div.row1.col1'), $('div.row1.col3'), $('div.row3.col1'), $('div.row3.col3')];
-        if (corners[0] === opponent && corners[3] === " ") rank[2][2] += 1;
-        if (corners[3] === opponent && corners[0] === " ") rank[0][0] += 1;
-        if (corners[1] === opponent && corners[2] === " ") rank[2][0] += 1;
-        if (corners[2] === opponent && corners[1] === " ") rank[0][2] += 1;
+        if (corners[0].text() === opponent && corners[3].text() === " ") {
+          rank[2][2] += 1;
+        }
+        if (corners[3].text() === opponent && corners[0].text() === " ") {
+          rank[0][0] += 1;
+        }
+        if (corners[1].text() === opponent && corners[2].text() === " ") {
+          rank[2][0] += 1;
+        }
+        if (corners[2].text() === opponent && corners[1].text() === " ") {
+          rank[0][2] += 1;
+        }
         return rank;
       };
 
@@ -300,6 +316,28 @@
       return Player;
 
     })();
+    ($('#offOrOnline')).submit(function(event) {
+      var socket;
+      ($('section#board div.cell')).off();
+      event.target.checkValidity();
+      event.preventDefault();
+      if (($('select#onOrOff option:selected')).val() === "offline") {
+        ($('section#off-online')).hide();
+        ($('section#setup')).show();
+        ($('#start_button')).focus();
+      }
+      if (($('select#onOrOff option:selected')).val() === "online") {
+        socket = io.connect('http://localhost');
+        socket.on('move', function(data) {
+          console.log(data);
+          return socket.emit('move', {
+            my: 'data'
+          });
+        });
+        ($('section#off-online')).hide();
+        return ($('section#board')).show();
+      }
+    });
     return ($('#gameOptions')).submit(function(event) {
       var game;
       ($('section#board div.cell')).off();
