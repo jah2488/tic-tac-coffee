@@ -1,0 +1,108 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Tic Tac Coffee</title>
+	<meta name="description" content="Tic Tac Toe in the Browser. Built with Coffeescript">
+	<meta name="author" content="Justin Herrick">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="css/style.css">
+
+  <script src="/socket.io/socket.io.js"></script>
+	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+	<div id="header-container">
+		<header class="wrapper clearfix">
+    <h1 id="title">Tic Tac Coffee</h1>
+		</header>
+	</div>
+	<div id="main-container">
+		<div id="main" class="wrapper clearfix">
+      <div class="center">
+  			<section id="board" style="display:none;">
+          <div class="row clearfix">
+            <div class="cell col1 row1" data-value="1"> </div>
+            <div class="cell col2 row1" data-value="2"> </div>
+            <div class="cell col3 row1" data-value="3"> </div>
+          </div>
+          <div class="row clearfix">
+            <div class="cell col1 row2" data-value="4"> </div>
+            <div class="cell col2 row2" data-value="5"> </div>
+            <div class="cell col3 row2" data-value="6"> </div>
+          </div>
+          <div class="row clearfix">
+            <div class="cell col1 row3" data-value="7"> </div>
+            <div class="cell col2 row3" data-value="8"> </div>
+            <div class="cell col3 row3" data-value="9"> </div>
+          </div>
+        </section>
+        <div id="statusBar">
+          <h1></h1><p></p>
+        </div>
+        <section id="off-online">
+          <form id="offOrOnline">
+            <fieldset>
+              <label>Single or Multiplayer</label>
+              <select id="onOrOff" required>
+                <option value="offline">SinglePlayer - Offline</option>
+                <option value="online">Multiplayer - Online</option>
+              </select>
+            </fieldset>
+            <input type="submit" id="start_multiplayer" name="submit" value="Start"/>
+          </form>
+        </section>
+
+        <section id="setup">
+          <form id="gameOptions">
+            <fieldset>
+              <label>Total Players</label>
+             <input type="number" value="1" pattern="[0-2]" maxlength="1" min="0" max="2" title="Either 0, 1, or 2" id="player-count" name="player_count" placeholder="1" required>
+            </fieldset>
+            <fieldset>
+              <label>Player 1 Type</label>
+              <input type="text" pattern="[a-zA-Z0-9]" maxlength="1" title="Any single alphanumeric character" id="player-1-type" name="player_1_type" value="X" required>
+            </fieldset>
+            <fieldset>
+              <label>Player 2 Type</label>
+              <input type="text" pattern="[a-zA-Z0-9]" maxlength="1" title="Any single alhpanumeric character" id="player-2-type" name="player_2_type" value="O" required>
+            </fieldset>
+            <input type="submit" id="start_button" name="start" value="Start Game"/>
+          </form>
+        </section>
+        <aside>
+          <h3>Score Sheet</h3>
+          <div>
+            <span class="p1-title"> P1 Wins : </span><span class="p1-wins">0</span><br/>
+            <span class="p2-title"> P2 Wins : </span><span class="p2-wins">0</span>
+
+          </div>
+        </aside>
+      </div>
+
+			
+		</div> <!-- #main -->
+	</div> <!-- #main-container -->
+
+	<div id="footer-container">
+		<footer class="wrapper">
+    <h3>by <a href="http://justinherrick.com">justinherrick</a></h3>
+		</footer>
+	</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
